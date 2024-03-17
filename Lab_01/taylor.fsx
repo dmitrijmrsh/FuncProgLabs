@@ -11,13 +11,19 @@ let rec factorial (n : float) =
         1.0
     else n * factorial(n - 1.0)
 
-let dumb_taylor_series_member (x : float) (n : float) = (2.0 * n + 1.0) / (factorial n) * (x ** (2.0 * n))
+let rec pow (value : float) (exponent : float) =
+    if exponent = 0 then
+        1.0
+    else
+        value * (pow value (exponent - 1.0))
+
+let dumb_taylor_series_member (x : float) (n : float) = (2.0 * n + 1.0) / (factorial n) * (pow x (2.0 * n))
 
 let smart_taylor_series_member (x: float) (n : float) (prev : float) =
     if (n = 0) then
         dumb_taylor_series_member x n
     else
-        ((x ** 2.0) / n) * ((2.0 * n + 1.0) / (2.0 * n - 1.0)) * prev
+        ((x * x) / n) * ((2.0 * n + 1.0) / (2.0 * n - 1.0)) * prev
 
 
 let rec dumb_taylor (x : float) (n : float) (acc : float) (eps : float) =

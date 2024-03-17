@@ -3,6 +3,12 @@ let eps = 0.00001
 
 let secion_center (a : float) (b : float) = (a + b) / 2.0
 
+let rec pow (value : float) (exponent : float) =
+    if exponent = 0 then
+        1.0
+    else
+        value * (pow value (exponent - 1.0))
+
 let rec dichotomy (f : float -> float) (a : float) (b : float) (eps : float) =
     let c = secion_center a b
     if abs (b - a) < eps then
@@ -29,15 +35,15 @@ let rec newton (f : float -> float) (f' : float -> float) (x0 : float) (eps : fl
 
 
 let f1 (x : float) = 3.0 * System.Math.Sin(x ** 0.5) + 0.35 * x - 3.8
-let f2 (x : float) = 0.25 * (x ** 3) + x - 1.2502
+let f2 (x : float) = 0.25 * (pow x 3) + x - 1.2502
 let f3 (x : float) = x + (x ** 0.5) + (x ** (1.0 / 3.0)) - 2.5
 
 let phi1 (x : float) = (3.8 / 0.35) - (3.0 / 0.35) * System.Math.Sin(x ** 0.5)
-let phi2 (x : float) = 1.2502 - 0.25 * (x ** 3)
+let phi2 (x : float) = 1.2502 - 0.25 * x * x * x
 let phi3 (x : float) = 2.5 - (x ** 0.5) - (x ** (1.0 / 3.0))
 
 let f1' (x : float) = 3.0 * System.Math.Cos(x ** 0.5) * (1.0 / (2.0 * (x ** 0.5))) + 0.35
-let f2' (x : float) = 0.75 * (x ** 2.0) + 1.0
+let f2' (x : float) = 0.75 * x * x + 1.0
 let f3' (x : float) = 1.0 + 1.0 / (2.0 * (x ** 0.5)) + 1.0 / (3.0 * (x ** (2.0 / 3.0))) 
 
 let main() =
